@@ -7,19 +7,17 @@ import "ace-builds/src-noconflict/theme-github";
 
 export default class App extends Component{
   state = { 
-    codes: null
+    name: null
   } 
-  handleChange = (event) => {
-    this.setState({ 
-      [event.target.name]: event.target.value
-    })
+  handleClick = () => {
+    console.log(this.refs.aceEditor.editor.getValue());
   }
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Codes : ' + this.state.codes)
-    const url ='http://webhook.site/570cb185-c3b5-430a-82f7-db34f43e6d71'
+    console.log('Sent => ' + this.refs.aceEditor.editor.getValue())
+    const url ='http://webhook.site/fe25ea0d-0feb-4e38-8b58-d366c8c4dd03'
     const data = { 
-      codes: this.state.name
+      codes: this.refs.aceEditor.editor.getValue()
     }
     fetch(url, { 
       method: 'POST',
@@ -34,22 +32,21 @@ export default class App extends Component{
       .catch(error => console.error('Error:', error))
   }
   render(){
-  return(
-    <form onSubmit={this.handleSubmit}>
-      <AceEditor
-        name="codes"
-        mode="javascript"
-        theme="monokai"
-        onChange={this.handleChange}
-        width="700px"
-        height="700px"
-        editorProps={{
-            $blockScrolling: true
-        }}
-      />
-      <input type='submit' value='Submit Codes' /> 
-    </form>
-  )
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <AceEditor
+          name="name"
+          mode="javascript"
+          theme="monokai"
+          ref="aceEditor"
+          width="700px"
+          height="700px"
+          editorProps={{
+              $blockScrolling: true
+          }}/>
+        <input type='submit' value='Submit Codes' /> 
+      </form>
+    )
   }
 }
 
